@@ -26,7 +26,7 @@ class GameLayout extends React.Component {
     super(props);
     this.state = {
       cells: Array(9).fill(null),
-      currentPlayer: "player 1",
+      //currentPlayer: "player 1",
       playerID: 1,
       colorPlayer: gameColors.Blue
     };
@@ -42,10 +42,12 @@ class GameLayout extends React.Component {
     return (
       <div
         style={gameLayoutStyle}
-        onClick={() => this.setState({ currentPlayer: "toto", colorPlayer:gameColors.Red })}
+        onClick={() => this.state.playerID === 1 ?
+            this.setState({ playerID: 2, colorPlayer: gameColors.Red }) :
+            this.setState({ playerID: 1, colorPlayer: gameColors.Blue })}
         //onMouseOver={(cell) => this.setState({cells: Array(cell).fill(Cell({isMouseOver: true}))})}
       >
-        <GameInfo currentPlayer={this.state.currentPlayer} colorPlayer={this.state.colorPlayer}/>
+        <GameInfo playerId={this.state.playerID} colorPlayer={this.state.colorPlayer}/>
         <Board cells={this.state.cells} /*onClickCell={(id) => this.setState({currentPlayer: id})}*//>
       </div>
     );
