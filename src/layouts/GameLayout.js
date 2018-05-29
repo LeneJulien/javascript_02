@@ -2,6 +2,8 @@ import React from "react";
 import Board from "../components/Board";
 import GameInfo from "../components/GameInfo";
 
+
+
 const gameLayoutStyle = {
   width: 650,
   height: `calc(90%)`,
@@ -12,13 +14,21 @@ const gameLayoutStyle = {
   margin: "auto"
 };
 
+
+let gameColors = {
+    "Blue": "#00B1E1",
+    "Red": "#E9573F",
+    "Black": "#373131"
+}
+
 class GameLayout extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       cells: Array(9).fill(null),
-      currentPlayer: "player 1"
+      currentPlayer: "player 1",
+      playerID: 1,
+      colorPlayer: gameColors.Blue
     };
   }
 
@@ -32,10 +42,11 @@ class GameLayout extends React.Component {
     return (
       <div
         style={gameLayoutStyle}
-        onClick={() => this.setState({ currentPlayer: "toto" })}
+        onClick={() => this.setState({ currentPlayer: "toto", colorPlayer:gameColors.Red })}
+        //onMouseOver={(cell) => this.setState({cells: Array(cell).fill(Cell({isMouseOver: true}))})}
       >
-        <GameInfo />
-        <Board />
+        <GameInfo currentPlayer={this.state.currentPlayer} colorPlayer={this.state.colorPlayer}/>
+        <Board cells={this.state.cells} /*onClickCell={(id) => this.setState({currentPlayer: id})}*//>
       </div>
     );
   }
