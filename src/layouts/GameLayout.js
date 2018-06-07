@@ -28,7 +28,7 @@ class GameLayout extends React.Component {
       cells: Array(9).fill(null),
       //currentPlayer: "player 1",
       playerID: 1,
-      colorPlayer: gameColors.Blue
+      colorPlayer: gameColors.Red
     };
   }
 
@@ -38,17 +38,23 @@ class GameLayout extends React.Component {
     return state;
   }
 
+  clickCell(i){
+    if (this.state.cells[i] !== null){
+      return;
+    }
+    let newCells = [...this.state.cells];
+    newCells[i] = this.state.playerID;
+    this.setState({cells: newCells,
+        colorPlayer: this.state.playerID === 2 ? gameColors.Red : gameColors.Blue,
+        playerID: this.state.playerID === 1 ? 2 : 1})
+  }
+
   render() {
     return (
-      <div
-        style={gameLayoutStyle}
-        onClick={() => this.state.playerID === 1 ?
-            this.setState({ playerID: 2, colorPlayer: gameColors.Red }) :
-            this.setState({ playerID: 1, colorPlayer: gameColors.Blue })}
-        //onMouseOver={(cell) => this.setState({cells: Array(cell).fill(Cell({isMouseOver: true}))})}
-      >
+      <div style={gameLayoutStyle}>
         <GameInfo playerId={this.state.playerID} colorPlayer={this.state.colorPlayer}/>
-        <Board cells={this.state.cells} /*onClickCell={(id) => this.setState({currentPlayer: id})}*//>
+        <Board cells={this.state.cells} playerID={this.state.playerID}
+            onClickCell={(id) => this.clickCell(id)}/>
       </div>
     );
   }
