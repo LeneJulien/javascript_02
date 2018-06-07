@@ -26,7 +26,7 @@ class GameLayout extends React.Component {
     super(props);
     this.state = {
       cells: Array(9).fill(null),
-      //currentPlayer: "player 1",
+      winner: 0,
       playerID: 1,
       colorPlayer: gameColors.Red
     };
@@ -36,6 +36,31 @@ class GameLayout extends React.Component {
   // use it to infer new state values from props or state changes.
   static getDerivedStateFromProps(props, state) {
     return state;
+  }
+
+  isWinner(){
+    let j = 0;
+    let cpt;
+    for (let i = 0; i < 9; i += 3, j + 1){
+      if (this.state.cells[i] === this.state.cells[i + 1] && this.state.cells[i] === this.state.cells[i + 2]){
+        this.state.winner = this.state.cells[i];
+      }
+      if (this.state.cells[j] === this.state.cells[j + 3] && this.state.cells[j] === this.state.cells[j + 6]) {
+          this.state.winner = this.state.cells[j];
+      }
+      if(this.state.cells[i] !== null && this.state.cells[j] !== null){
+        this.state.winner = -1;
+      }
+    }
+    if (this.state.cells[0] === this.state.cells[4] && this.state.cells[0] === this.state.cells[8]) {
+        this.state.winner = this.state.cells[0];
+
+        return true;
+    }
+    if (this.state.cells[2] === this.state.cells[4] && this.state.cells[2] === this.state.cells[6]) {
+        this.state.winner = this.state.cells[2];
+    }
+    return this.state.winner;
   }
 
   clickCell(i){
@@ -52,9 +77,13 @@ class GameLayout extends React.Component {
   render() {
     return (
       <div style={gameLayoutStyle}>
-        <GameInfo playerId={this.state.playerID} colorPlayer={this.state.colorPlayer}/>
+        <GameInfo playerId={this.state.playerID} colorPlayer={this.state.colorPlayer}
+                  winner={() => this.state.isWinner()}/>
+        {this.state.winner === 0 ?
         <Board cells={this.state.cells} playerID={this.state.playerID}
-            onClickCell={(id) => this.clickCell(id)}/>
+            onClickCell={(id) => this.clickCell(id)}/> :
+            <GameInfo playerId={this.state.playerID} colorPlayer={this.state.colorPlayer}
+                      winner={() => this.state.isWinner()}/>}
       </div>
     );
   }
