@@ -74,11 +74,7 @@ class Cell extends React.Component{
     handlerMouseOut() {
         this.setState({isMouseOver: false});
     }
-
-
-
-//<div style={this.state.playerID === 1 ? cross : not}>-->
-//<div style={this.state.playerID === 1 ? crosss : not}></div></div>
+    :
 
     render() {
         return (
