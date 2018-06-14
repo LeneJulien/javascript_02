@@ -74,7 +74,6 @@ class Cell extends React.Component{
     handlerMouseOut() {
         this.setState({isMouseOver: false});
     }
-    :
 
     render() {
         return (
